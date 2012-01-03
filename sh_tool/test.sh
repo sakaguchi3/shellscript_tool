@@ -22,6 +22,11 @@
 
 # function --------------------------------------------------
 
+empty_func() {
+  :#
+}
+
+
 measure_time() {
   start=$(date +%s)
   # program
@@ -73,10 +78,6 @@ check_if_contain() {
     return
   fi
 
-}
-
-empty_func() {
-  :#
 }
 
 data_size() {
