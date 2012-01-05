@@ -26,6 +26,23 @@ empty_func() {
   :#
 }
 
+rsync_f() {
+  server="localhost"
+  dst="/tmp"
+
+  # download
+  rsync -ahz --progress --compress-level=9 \
+    --remove-source-files \
+    --include="*.csv" --exclude='*' \
+    user@"${server}":/logs/ "${dst}/"
+
+  # with ssh
+  key="~/.ssh/secret"
+  rsync -ahz --progress --compress-level=9 \
+    --remove-source-files \
+    --include="*.csv" --exclude='*' \
+    -e "ssh -i ${key}" user@"${server}":/logs/ "${dst}/"
+}
 
 measure_time() {
   start=$(date +%s)
