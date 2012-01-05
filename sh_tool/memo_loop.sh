@@ -26,6 +26,22 @@ empty_func() {
   :#
 }
 
+read_file() {
+  file='/tmp/file.txt'
+  while read line; do
+    echo $line
+  done <"$file"
+
+  # use here document
+  all_data=$(cat ${file})
+  while read line; do
+    echo $line
+  done <<EOS
+    ${all_data}
+EOS
+
+}
+
 loop_files() {
   dir='/tmp'
 
