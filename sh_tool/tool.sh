@@ -99,7 +99,7 @@ upload_file() {
 
   rsync -ahvz --progress --compress-level=9 ${option} \
     --include="${download_target_extension}" --exclude='*' \
-    -e "ssh -i ${ssh_key}"  \
+    -e "ssh -i ${ssh_key}" \
     "${dir_local}/" "${ssh_user}@${server}:${dir_remote}/"
 
 }
@@ -115,35 +115,83 @@ download_file() {
 
   rsync -ahvz --progress --compress-level=9 ${option} \
     --include="${download_target_extension}" --exclude='*' \
-    -e "ssh -i ${ssh_key}"  \
+    -e "ssh -i ${ssh_key}" \
     "${ssh_user}@${server}:${dir_remote}/" "${dir_local}/"
 
 }
 
-slack() {
-  CHANNEL='xxxx'
-  text_attache="sample"
+<<'Comment'
+  Usage
+       slack_wget ${token} {json}
 
-  # warning, good or clolr code(#ff0000)
-  color="warning"
-  attachments='[{"attachment_type":"default", "text":'${text_attache}',"color":'${color}'}]'
-  text='xxx'
-  json=$(
-    cat <<EOS
-		{
-		  "channel": "${CHANNEL}",
-		  "text": "${text}",
-		  "attachments":${attachments}
-		}
+  sample code START------------------------------>>
+     CHANNEL='xxxx'
+     text_attache="sample"
+
+     # warning, good or clolr code(#ff0000)
+     color="warning"
+     attachments='[{"attachment_type":"default", "text":'${text_attache}',"color":'${color}'}]'
+     text='xxx'
+     json=$(
+       cat <<EOS
+   		{
+   		  "channel": "${CHANNEL}",
+   		  "text": "${text}",
+   		  "attachments":${attachments}
+   		}
 EOS
-  )
-  TOKEN='xxxx'
+     )
+     TOKEN='xxxx'
+
+     slack_wget ${TOKEN} ${json}
+  <<------------------------------END
+Comment
+slack_wget() {
+  local token=$1
+  local json=$2
+
   wget https://slack.com/api/chat.postMessage \
-    --header='Authorization: Bearer'${TOKEN} \
+    --header="Authorization: Bearer ${token}" \
     --header='Content-type: application/json' \
     --post-data="${json}" \
     -O -
+}
 
+<<'Comment'
+  Usage
+       slack_curl ${token} {json}
+
+  sample code START------------------------------>>
+     CHANNEL='xxxx'
+     text_attache="sample"
+
+     # warning, good or clolr code(#ff0000)
+     color="warning"
+     attachments='[{"attachment_type":"default", "text":'${text_attache}',"color":'${color}'}]'
+     text='xxx'
+     json=$(
+       cat <<EOS
+   		{
+   		  "channel": "${CHANNEL}",
+   		  "text": "${text}",
+   		  "attachments":${attachments}
+   		}
+EOS
+     )
+     TOKEN='xxxx'
+
+     slack_curl ${TOKEN} ${json}
+  <<------------------------------END
+Comment
+slack_curl() {
+  local token=$1
+  local json=$2
+
+  curl https://slack.com/api/chat.postMessage \
+    -X POST \
+    -H "Authorization: Bearer ${token}" \
+    -H 'Content-type: application/json' \
+    -d "${json}"
 }
 
 # execute --------------------------------------------------
