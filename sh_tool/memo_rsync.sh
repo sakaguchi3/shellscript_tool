@@ -29,6 +29,7 @@ func_rsync_make_dir() {
 
   # copy to remote on '/tmp/x/y/z'
   rsync -a \
+    --compress-level=9 \
     -e "ssh -i ${ssh_key}" \
     --rsync-path="mkdir -p ${dir_nest} && rsync ${dir_nest}" \
     "${ssh_user}@${ssh_host}:/${dir_nest}"
@@ -43,6 +44,7 @@ func_rsync_relative() {
 
   # copy to remote on '/pre_exsisting/tmp/x/y/z'
   rsync -a \
+    --compress-level=9 \
     -e "ssh -i ${ssh_key}" \
     --relative "${dir_nest}" "${ssh_user}@${ssh_host}":/pre_existing/
 
