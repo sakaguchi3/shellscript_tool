@@ -32,13 +32,13 @@ func_remove_5min_ago() {
 
   for dir in "${dirs_rm_target[@]}"; do
     # t in (-n, today]
-    # find ${dir} -type f -name '*.log' -ctime -${ago_min} | xargs rm -f
+    # find ${dir} -type f -name '*.log' -cmin -${ago_min} | xargs rm -f
 
     # t in (-(n+1), -n]
-    #     find ${dir} -type f -name '*.log' -ctime ${ago_min} | xargs rm -f
+    #     find ${dir} -type f -name '*.log' -cmin ${ago_min} | xargs rm -f
 
     # t in (-infinite, -n)
-    find ${dir}/ -type f -name "${file_name}" -ctime +${ago_min} -print | xargs rm -f
+    find ${dir}/ -type f -name "${file_name}" -cmin +${ago_min} -print | xargs rm -f
   done
 }
 
