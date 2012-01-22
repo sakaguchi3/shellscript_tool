@@ -88,6 +88,38 @@ logger() {
   echo "[info]${JST} - ${str}" >>${LOG_FILE}
 }
 
+upload_file() {
+  local download_target_extension="*.csv"
+  local server="localhost"
+  local ssh_user="user"
+  local dir_remote="/tmp"
+  local dir_local="/tmp"
+  lcoal option="--remove-source-files"
+  local ssh_key="~/.ssh/ssh_private"
+
+  rsync -ahvz --progress --compress-level=9 ${option} \
+    --include="${download_target_extension}" --exclude='*' \
+    -e "ssh -i ${ssh_key}"  \
+    "${dir_local}/" "${ssh_user}@${server}:${dir_remote}/"
+
+}
+
+download_file() {
+  local download_target_extension="*.csv"
+  local server="localhost"
+  local ssh_user="user"
+  local dir_remote="/tmp"
+  local dir_local="/tmp"
+  lcoal option="--remove-source-files"
+  local ssh_key="~/.ssh/ssh_private"
+
+  rsync -ahvz --progress --compress-level=9 ${option} \
+    --include="${download_target_extension}" --exclude='*' \
+    -e "ssh -i ${ssh_key}"  \
+    "${ssh_user}@${server}:${dir_remote}/" "${dir_local}/"
+
+}
+
 slack() {
   CHANNEL='xxxx'
   text_attache="sample"
