@@ -22,6 +22,36 @@
 
 # function --------------------------------------------------
 
+empty_func() {
+  :#
+}
+
+kill_app() {
+  app=$1
+
+  read -p "kill '${app}'-process(yes/no)?>" str
+
+  case "${str}" in
+  yes)
+    echo "YES"
+    ;;
+  no)
+    echo "NO"
+    exit 0
+    ;;
+  *)
+    echo "invalid parameter. input yes/no"
+    exit 0
+    ;;
+  esac
+
+  ps aux |
+    grep "${app}" |
+    grep -v grep |
+    awk '{ print "kill", $2 }' |
+    sh
+}
+
 mysql_insert() {
   MYSQL_APP='/usr/bin/mysql'
   MYSQL_USER='usr'
@@ -43,7 +73,6 @@ ssh_t() {
 EOS
 
 }
-
 
 random() {
   random=$(cat /dev/urandom | LC_CTYPE=C tr -dc "[:alnum:]" | fold -w 40 | head -n1)
