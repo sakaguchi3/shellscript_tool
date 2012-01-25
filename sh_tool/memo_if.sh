@@ -26,6 +26,34 @@ empty_func() {
   :#
 }
 
+if_memo() {
+  # 'if [式]' は 'if test 式' のシンタックスシュガー
+  a=10
+  b=3
+
+  if [ $a -gt $b ]; then
+    echo "a > b"
+  fi
+
+  if test $a -gt $b; then
+
+    echo "a > b"
+  fi
+}
+
+use_true() {
+  flag=true
+  if ("${flag}"); then
+    echo "flag is ${flag}"
+  fi
+
+  flag=false
+  if (! "${flag}"); then
+    echo "flag is ${flag}"
+  fi
+
+}
+
 if_file() {
 
   # ファイル or ディレクトリが存在するか
