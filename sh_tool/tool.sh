@@ -29,6 +29,8 @@ empty_func() {
 kill_app() {
   app=$1
 
+  process=$(ps aux | grep "${app}")
+  echo "> ${process}"
   read -p "kill '${app}'-process(yes/no)?>" str
 
   case "${str}" in
