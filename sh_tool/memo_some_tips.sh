@@ -86,6 +86,7 @@ confirm() {
     ;;
   esac
 }
+
 check_if_contain() {
   ALLOW_TYPE=('x' 'y' 'z')
 
