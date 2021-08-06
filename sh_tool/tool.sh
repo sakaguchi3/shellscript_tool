@@ -27,9 +27,9 @@ empty_func() {
 }
 
 kill_app() {
-  app=$1
+  local app=$1
+  local process=$(ps aux | grep "${app}")
 
-  process=$(ps aux | grep "${app}")
   echo "> ${process}"
   read -p "kill '${app}'-process(yes/no)?>" str
 
@@ -55,21 +55,22 @@ kill_app() {
 }
 
 mysql_insert() {
-  MYSQL_APP='/usr/bin/mysql'
-  MYSQL_USER='usr'
-  MYSQL_PASSWORD='pass'
-  MYSQL_HOST='localhost:3306'
-  MYSQL_DATABASE='db'
-  MYSQL_SQL="select 1"
-  MYSQL_SSL="--ssl-ca=/tmp/ssl/cert.pem --ssl-mode=VERIFY_CA"
+  local MYSQL_APP='/usr/bin/mysql'
+  local MYSQL_USER='usr'
+  local MYSQL_PASSWORD='pass'
+  local MYSQL_HOST='localhost:3306'
+  local MYSQL_DATABASE='db'
+  local MYSQL_SQL="select 1"
+  local MYSQL_SSL="--ssl-ca=/tmp/ssl/cert.pem --ssl-mode=VERIFY_CA"
   eval "${MYSQL_APP} -h ${MYSQL_HOST} -u ${MYSQL_USER} -p ${MYSQL_DATABASE} ${MYSQL_SSL} --password=${MYSQL_PASSWORD} -e ${MYSQL_SQL}"
 }
 
 ssh_t() {
-  SSH_HOST='localhost:22'
-  SSH_USR='user'
-  SSH_KEY="${HOME}/.ssh/ssh_private_kwy"
-  SSH_LOG="/tmp/log/ssh.log"
+  local SSH_HOST='localhost:22'
+  local SSH_USR='user'
+  local SSH_KEY="${HOME}/.ssh/ssh_private_kwy"
+  local SSH_LOG="/tmp/log/ssh.log"
+
   ssh -tt "${SSH_USR}"@"${SSH_HOST}" -i "${SSH_KEY}" >>"${SSH_LOG}" 2>&1 <<EOS
     echo  "something command"
 EOS
@@ -77,14 +78,15 @@ EOS
 }
 
 random() {
-  random=$(cat /dev/urandom | LC_CTYPE=C tr -dc "[:alnum:]" | fold -w 40 | head -n1)
+  local random=$(cat /dev/urandom | LC_CTYPE=C tr -dc "[:alnum:]" | fold -w 40 | head -n1)
   echo ${random}
 }
 
 logger() {
-  str=$1
-  LOG_FILE='/tmp/log/sample_shell.log'
-  JST=$(TZ="Asia/Tokyo" date --date="now" "+%Y%m%d_%H%M%S")
+  local str=$1
+  local LOG_FILE='/tmp/log/sample_shell.log'
+  local JST=$(TZ="Asia/Tokyo" date --date="now" "+%Y%m%d_%H%M%S")
+
   echo "[info]${JST} - ${str}" >>${LOG_FILE}
 }
 
