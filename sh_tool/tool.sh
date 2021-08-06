@@ -120,7 +120,7 @@ download_file() {
 
 }
 
-<<'Comment'
+: <<'Comment'
   Usage
        slack_wget ${token} {json}
 
@@ -157,7 +157,7 @@ slack_wget() {
     -O -
 }
 
-<<'Comment'
+: <<'Comment'
   Usage
        slack_curl ${token} {json}
 
